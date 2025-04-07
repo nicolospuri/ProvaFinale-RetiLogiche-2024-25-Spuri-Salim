@@ -130,7 +130,7 @@ begin
     -- Processo per l'elaborazione dei dati
     process(i_clk, i_rst)
         variable temp_result : signed(31 downto 0) := (others => '0');
-        variable normalized_result : signed(7 downto 0) := (others => '0');
+        variable normalized_result : signed(7 downto 0) := (others => '0');   
     begin
         if i_rst = '1' then
             -- Reset dei segnali
@@ -147,6 +147,7 @@ begin
             o_mem_en <= '0';
             o_mem_addr <= (others => '0');
             o_mem_data <= (others => '0');
+   
             
             -- Reset degli array
             for i in 0 to 6 loop
@@ -202,19 +203,19 @@ begin
                         -- Filtro di ordine 3: c=[0, -1, 8, 0, -8, 1, 0]
                         case coeff_counter is
                             when 0 =>
-                                filter_coeffs(0) <= to_signed(0, 8);
+                                filter_coeffs(0) <= signed(i_mem_data);
                             when 1 =>
-                                filter_coeffs(1) <= to_signed(-1, 8);
+                                filter_coeffs(1) <= signed(i_mem_data);
                             when 2 =>
-                                filter_coeffs(2) <= to_signed(8, 8);
+                                filter_coeffs(2) <= signed(i_mem_data);
                             when 3 =>
-                                filter_coeffs(3) <= to_signed(0, 8);
+                                filter_coeffs(3) <= signed(i_mem_data);
                             when 4 =>
-                                filter_coeffs(4) <= to_signed(-8, 8);
+                                filter_coeffs(4) <= signed(i_mem_data);
                             when 5 =>
-                                filter_coeffs(5) <= to_signed(1, 8);
+                                filter_coeffs(5) <= signed(i_mem_data);
                             when 6 =>
-                                filter_coeffs(6) <= to_signed(0, 8);
+                                filter_coeffs(6) <= signed(i_mem_data);
                             when others =>
                                 null;
                         end case;
@@ -222,19 +223,19 @@ begin
                         -- Filtro di ordine 5: c=[1, -9, 45, 0, -45, 9,-1]
                         case coeff_counter is
                             when 0 =>
-                                filter_coeffs(0) <= to_signed(1, 8);
+                                filter_coeffs(0) <= signed(i_mem_data);
                             when 1 =>
-                                filter_coeffs(1) <= to_signed(-9, 8);
+                                filter_coeffs(1) <= signed(i_mem_data);
                             when 2 =>
-                                filter_coeffs(2) <= to_signed(45, 8);
+                                filter_coeffs(2) <= signed(i_mem_data);
                             when 3 =>
-                                filter_coeffs(3) <= to_signed(0, 8);
+                                filter_coeffs(3) <= signed(i_mem_data);
                             when 4 =>
-                                filter_coeffs(4) <= to_signed(-45, 8);
+                                filter_coeffs(4) <= signed(i_mem_data);
                             when 5 =>
-                                filter_coeffs(5) <= to_signed(9, 8);
+                                filter_coeffs(5) <= signed(i_mem_data);
                             when 6 =>
-                                filter_coeffs(6) <= to_signed(-1, 8);
+                                filter_coeffs(6) <= signed(i_mem_data);
                             when others =>
                                 null;
                         end case;
