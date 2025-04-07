@@ -153,7 +153,7 @@ begin
                 filter_coeffs(i) <= (others => '0');
             end loop;
             
-            for i in 0 to 255 loop
+            for i in 0 to 65535 loop
                 input_data(i) <= (others => '0');
                 output_data(i) <= (others => '0');
             end loop;
@@ -267,6 +267,9 @@ begin
                     
                 when PROCESS_DATA =>
                     -- Elabora i dati con il filtro
+                    temp_result := (others => '0');
+                    normalized_result := (others => '0');
+                                        
                     for i in 0 to 6 loop
                         if process_counter + i - 3 < 0 or process_counter + i - 3 >= to_integer(k_length) then
                             -- Fuori dai limiti, usa 0
