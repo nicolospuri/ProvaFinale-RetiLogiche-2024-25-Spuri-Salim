@@ -36,7 +36,7 @@ architecture Behavioral of project_reti_logiche is
         READ_K1,          -- Legge il primo byte della lunghezza K
         READ_K2,          -- Legge il secondo byte della lunghezza K
         READ_S,           -- Legge il byte S che indica l'ordine del filtro
-        SET_COEFFS,      -- Setta i coefficienti del filtro
+        READ_COEFFS,      -- Legge i coefficienti del filtro
         READ_DATA,        -- Legge i dati da elaborare
         PROCESS_DATA,     -- Elabora i dati con il filtro
         WRITE_RESULTS,    -- Scrive i risultati in memoria
@@ -98,9 +98,9 @@ begin
                 next_state <= READ_S;
                 
             when READ_S =>
-                next_state <= SET_COEFFS;
+                next_state <= READ_COEFFS;
                 
-            when SET_COEFFS =>
+            when READ_COEFFS =>
                 if coeff_counter = 14 then
                     next_state <= READ_DATA;
                 end if;
@@ -197,48 +197,13 @@ begin
                     o_mem_en <= '1';
                     coeff_counter <= 0;
                     
-                when SET_COEFFS =>
-                    -- Setta i coefficienti del filtro in base al valore del bit meno significativo S ('0' ordine 3
-                    if filter_order = '0' then
-                        -- Filtro di ordine 3: c=[0, -1, 8, 0, -8, 1, 0]
-                        case coeff_counter is
-                            when 0 =>
-                                filter_coeffs(0) <= signed(i_mem_data);
-                            when 1 =>
-                                filter_coeffs(1) <= signed(i_mem_data);
-                            when 2 =>
-                                filter_coeffs(2) <= signed(i_mem_data);
-                            when 3 =>
-                                filter_coeffs(3) <= signed(i_mem_data);
-                            when 4 =>
-                                filter_coeffs(4) <= signed(i_mem_data);
-                            when 5 =>
-                                filter_coeffs(5) <= signed(i_mem_data);
-                            when 6 =>
-                                filter_coeffs(6) <= signed(i_mem_data);
-                            when others =>
-                                null;
-                        end case;
-                    else
-                        -- Filtro di ordine 5: c=[1, -9, 45, 0, -45, 9,-1]
-                        case coeff_counter is
-                            when 0 =>
-                                filter_coeffs(0) <= signed(i_mem_data);
-                            when 1 =>
-                                filter_coeffs(1) <= signed(i_mem_data);
-                            when 2 =>
-                                filter_coeffs(2) <= signed(i_mem_data);
-                            when 3 =>
-                                filter_coeffs(3) <= signed(i_mem_data);
-                            when 4 =>
-                                filter_coeffs(4) <= signed(i_mem_data);
-                            when 5 =>
-                                filter_coeffs(5) <= signed(i_mem_data);
-                            when 6 =>
-                                filter_coeffs(6) <= signed(i_mem_data);
-                            when others =>
-                                null;
-                        end case;
+                when READ_COEFFS =>
+                    -- Setta i coefficienti del filtro in base al valore del bit meno significativo S
+                    --  '0' ordine 3, '1' ordine 5
+                    if filter_order = '0' and coeff_counter < 7 then
+                        filter_coeffs(coeff_counter) <= signed(i_mem_data);
+                    elsif filter_order = '1' and coeff_counter > 6 then
+                        filter_coeffs(coeff_counter - 7) <= signed(i_mem_data);
                     end if;
                     
                     -- Scorri i contatori
