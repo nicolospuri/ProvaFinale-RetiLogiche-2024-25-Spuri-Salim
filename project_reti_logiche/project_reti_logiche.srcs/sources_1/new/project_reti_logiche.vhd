@@ -33,6 +33,7 @@ architecture Behavioral of project_reti_logiche is
     -- Definizione degli stati della FSM
     type state_type is (
         IDLE,             -- Stato iniziale, attende START
+        FETCH,            -- Va a prendere il dato corretto aspettando che il tb legga in memoria dall'indirizzo aggiornato
         READ_K1,          -- Legge il primo byte della lunghezza K
         READ_K2,          -- Legge il secondo byte della lunghezza K
         READ_S,           -- Legge il byte S che indica l'ordine del filtro
@@ -67,6 +68,14 @@ architecture Behavioral of project_reti_logiche is
     signal process_counter : integer range 0 to 65535;
     signal write_counter : integer range 0 to 65535;
     
+    -- Flag per gestire lo stato prossimo di FETCH
+    signal idle_flag : std_logic;
+    signal read_k1_flag : std_logic;
+    signal read_k2_flag : std_logic;
+    signal read_s_flag : std_logic;
+    signal read_coeffs_flag : std_logic;
+    signal read_data_flag : std_logic;
+    
 begin
 
     -- Processo per gestire il reset e il cambio di stato
@@ -88,27 +97,43 @@ begin
         case current_state is
             when IDLE =>
                 if i_start = '1' then
+                    next_state <= FETCH;
+                end if;
+                
+            when FETCH =>
+                if idle_flag = '1' then
                     next_state <= READ_K1;
                 end if;
-                
-            when READ_K1 =>
-                next_state <= READ_K2;
-                
-            when READ_K2 =>
-                next_state <= READ_S;
-                
-            when READ_S =>
-                next_state <= READ_COEFFS;
-                
-            when READ_COEFFS =>
-                if coeff_counter = 14 then
+                if read_k1_flag = '1' then
+                    next_state <= READ_K2;
+                end if;
+                if read_k2_flag = '1' then
+                    next_state <= READ_S;
+                end if;
+                if read_s_flag = '1' then
+                    next_state <= READ_COEFFS;
+                end if;
+                if read_coeffs_flag = '1' then
                     next_state <= READ_DATA;
                 end if;
-                
-            when READ_DATA =>
-                if data_counter = to_integer(k_length) then
+                if read_data_flag = '1' then
                     next_state <= PROCESS_DATA;
                 end if;
+            
+            when READ_K1 =>
+                next_state <= FETCH;
+                
+            when READ_K2 =>
+                next_state <= FETCH;
+                
+            when READ_S =>
+                next_state <= FETCH;
+                
+            when READ_COEFFS =>
+                next_state <= FETCH;
+                
+            when READ_DATA =>
+                next_state <= FETCH;
                 
             when PROCESS_DATA =>
                 if process_counter = to_integer(k_length) then
@@ -123,7 +148,11 @@ begin
             when DONE_STATE =>
                 if i_start = '0' then
                     next_state <= IDLE;
-                end if;        
+                end if;
+                
+            when others =>
+                null;   
+                
         end case;
     end process;
     
@@ -147,6 +176,12 @@ begin
             o_mem_en <= '0';
             o_mem_addr <= (others => '0');
             o_mem_data <= (others => '0');
+            idle_flag <= '0';
+            read_k1_flag <= '0';
+            read_k2_flag <= '0';
+            read_s_flag <= '0';
+            read_coeffs_flag <= '0';
+            read_data_flag <= '0';
    
             
             -- Reset degli array
@@ -173,7 +208,11 @@ begin
                         current_address <= unsigned(i_add);
                         o_mem_addr <= i_add;
                         o_mem_en <= '1';
+                        idle_flag <= '1';
                     end if;
+                    
+                when FETCH =>
+                    null;
                     
                 when READ_K1 =>
                     -- Legge il primo byte per calcolare la lunghezza K e lo salva nelle prime 8 posizioni di k_lenght
@@ -181,6 +220,7 @@ begin
                     current_address <= current_address + 1;
                     o_mem_addr <= std_logic_vector(current_address + 1);
                     o_mem_en <= '1';
+                    read_k1_flag <= '1';
                     
                 when READ_K2 =>
                     -- Legge il secondo byte per calcolare la lunghezza K e lo salva nelle ultime 8 posizioni di k_lenght
@@ -188,6 +228,7 @@ begin
                     current_address <= current_address + 1;
                     o_mem_addr <= std_logic_vector(current_address + 1);
                     o_mem_en <= '1';
+                    read_k2_flag <= '1';
                     
                 when READ_S =>
                     -- Legge il byte S che indica l'ordine del filtro e salva in filter_order solo il bit meno significativo
@@ -196,6 +237,7 @@ begin
                     o_mem_addr <= std_logic_vector(current_address + 1);
                     o_mem_en <= '1';
                     coeff_counter <= 0;
+                    read_s_flag <= '1';
                     
                 when READ_COEFFS =>
                     -- Setta i coefficienti del filtro in base al valore del bit meno significativo S
@@ -217,6 +259,7 @@ begin
                     -- Se sei arrivato all'ultimo coefficiente, inizializza il contatore dei dati da leggere
                     if coeff_counter = 13 then
                         data_counter <= 0;
+                        read_coeffs_flag <= '1';
                     end if;
                     
                 when READ_DATA =>
@@ -227,8 +270,10 @@ begin
                     o_mem_addr <= std_logic_vector(current_address + 1);
                     o_mem_en <= '1';
                     
+                    -- Se sei arrivato all'ultimo dato da leggere, inizializza il contatore dei dati da elaborare
                     if data_counter = to_integer(k_length) - 1 then
                         process_counter <= 0;
+                        read_data_flag <= '1';
                     end if;
                     
                 when PROCESS_DATA =>
@@ -283,6 +328,8 @@ begin
                     
                     process_counter <= process_counter + 1;
                     
+                    -- Se sei arrivato all'ultimo dato da elaborare, inizializza il contatore dei dati da scrivere e
+                    -- imposta correttamente l'indirizzo da cui partire
                     if process_counter = to_integer(k_length) - 1 then
                         write_counter <= 0;
                         current_address <= base_address + 17 + k_length;
@@ -301,6 +348,9 @@ begin
                 when DONE_STATE =>
                     o_done <= '1';
                     
+                when others =>
+                    null;   
+                     
             end case;
         end if;
     end process;
