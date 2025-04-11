@@ -158,8 +158,8 @@ begin
     
     -- Processo per l'elaborazione dei dati
     process(i_clk, i_rst)
-        variable temp_result : signed(31 downto 0) := (others => '0');
-        variable normalized_result : signed(7 downto 0) := (others => '0');   
+        variable temp_result : signed(23 downto 0) := (others => '0');
+        variable normalized_result : signed(23 downto 0) := (others => '0');   
     begin
         if i_rst = '1' then
             -- Reset dei segnali
@@ -294,26 +294,26 @@ begin
                         -- Filtro di ordine 3
                         -- 1/12 approssimato con 1/16 + 1/64 + 1/256 + 1/1024
                         if temp_result < 0 then
-                            normalized_result := resize(shift_right(temp_result, 4) + 1, 8) + 
-                                               resize(shift_right(temp_result, 6) + 1, 8) + 
-                                               resize(shift_right(temp_result, 8) + 1, 8) + 
-                                               resize(shift_right(temp_result, 10) + 1, 8);
+                            normalized_result := resize(shift_right(temp_result, 4) + 1, 24) + 
+                                                 resize(shift_right(temp_result, 6) + 1, 24) + 
+                                                 resize(shift_right(temp_result, 8) + 1, 24) + 
+                                                 resize(shift_right(temp_result, 10) + 1, 24);
                         else
-                            normalized_result := resize(shift_right(temp_result, 4), 8) + 
-                                               resize(shift_right(temp_result, 6), 8) + 
-                                               resize(shift_right(temp_result, 8), 8) + 
-                                               resize(shift_right(temp_result, 10), 8);
+                            normalized_result := resize(shift_right(temp_result, 4), 24) + 
+                                                 resize(shift_right(temp_result, 6), 24) + 
+                                                 resize(shift_right(temp_result, 8), 24) + 
+                                                 resize(shift_right(temp_result, 10), 24);
                         end if;
                     
                     else
                         -- Filtro di ordine 5
                         -- 1/60 approssimato con 1/64 + 1/1024
                         if temp_result < 0 then
-                            normalized_result := resize(shift_right(temp_result, 6) + 1, 8) + 
-                                               resize(shift_right(temp_result, 10) + 1, 8);
+                            normalized_result := resize(shift_right(temp_result, 6) + 1, 24) + 
+                                                 resize(shift_right(temp_result, 10) + 1, 24);
                         else
-                            normalized_result := resize(shift_right(temp_result, 6), 8) + 
-                                               resize(shift_right(temp_result, 10), 8);
+                            normalized_result := resize(shift_right(temp_result, 6), 24) + 
+                                                 resize(shift_right(temp_result, 10), 24);
                         end if;
                     end if;
                     
@@ -323,7 +323,7 @@ begin
                     elsif normalized_result < -128 then
                         output_data(process_counter) <= to_signed(-128, 8);
                     else
-                        output_data(process_counter) <= normalized_result;
+                        output_data(process_counter) <= normalized_result(7 downto 0);
                     end if;
                     
                     process_counter <= process_counter + 1;
