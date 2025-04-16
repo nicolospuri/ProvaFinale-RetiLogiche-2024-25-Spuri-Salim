@@ -231,15 +231,16 @@ begin
                     end if;
                     
                 when READ_DATA =>
-                    -- Legge i dati da elaborare e scorri i contatori
+                    -- Legge i dati da elaborare
                     input_data(data_counter) <= signed(i_mem_data);
                     data_counter <= data_counter + 1;
-                    current_address <= current_address + 1;
-                    o_mem_addr <= std_logic_vector(current_address + 1);
                     o_mem_en <= '1';
-                    
+                    -- Scorri gli indirizzi se non sei arrivato all'ultimo
+                    if data_counter < to_integer(k_length) - 1 then
+                        current_address <= current_address + 1;
+                        o_mem_addr <= std_logic_vector(current_address + 1);
+                    else
                     -- Se sei arrivato all'ultimo dato da leggere, inizializza il contatore dei dati da elaborare
-                    if data_counter = to_integer(k_length) - 1 then
                         process_counter <= 0;
                     end if;
                     
