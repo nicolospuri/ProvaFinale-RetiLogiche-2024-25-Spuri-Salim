@@ -32,8 +32,7 @@ architecture Behavioral of project_reti_logiche is
 
     -- Definizione degli stati della FSM
     type state_type is (
-        IDLE,             -- Stato iniziale, attende START
-        FETCH,            -- Va a prendere il dato corretto aspettando che il tb legga in memoria dall'indirizzo aggiornato
+        IDLE,             -- Stato iniziale, attende START e setta gli indirizzi iniziali
         READ_K1,          -- Legge il primo byte della lunghezza K
         READ_K2,          -- Legge il secondo byte della lunghezza K
         READ_S,           -- Legge il byte S che indica l'ordine del filtro
@@ -48,10 +47,10 @@ architecture Behavioral of project_reti_logiche is
     signal current_state, next_state : state_type;
     
     -- Segnali per gli indirizzi, per il numero di dati in input e per l'ordine del filtro
-    signal base_address : unsigned(15 downto 0);
-    signal current_address : unsigned(15 downto 0);
-    signal k_length : unsigned(15 downto 0);
-    signal filter_order : std_logic;  -- 0 per ordine 3, 1 per ordine 5
+    signal base_address     : unsigned(15 downto 0);
+    signal current_address  : unsigned(15 downto 0);
+    signal k_length         : unsigned(15 downto 0);
+    signal filter_order     : std_logic;  -- 0 per ordine 3, 1 per ordine 5
     
     -- Array per memorizzare i coefficienti del filtro
     type filter is array (0 to 6) of signed(7 downto 0);
@@ -59,22 +58,15 @@ architecture Behavioral of project_reti_logiche is
     
     -- Array per memorizzare i dati letti e quelli elaborati
     type data_array is array (0 to 65535) of signed(7 downto 0);
-    signal input_data : data_array;
-    signal output_data : data_array;
+    signal input_data   : data_array;
+    signal output_data  : data_array;
     
     -- Segnali di conteggio per il controllo del processo
-    signal coeff_counter : integer range 0 to 14;
-    signal data_counter : integer range 0 to 65535;
-    signal process_counter : integer range 0 to 65535;
-    signal write_counter : integer range 0 to 65535;
-    
-    -- Flag per gestire lo stato prossimo di FETCH
-    signal idle_flag : std_logic;
-    signal read_k1_flag : std_logic;
-    signal read_k2_flag : std_logic;
-    signal read_s_flag : std_logic;
-    signal read_coeffs_flag : std_logic;
-    signal read_data_flag : std_logic;
+    signal idle_counter     : integer range 0 to 2;
+    signal coeff_counter    : integer range 0 to 14;
+    signal data_counter     : integer range 0 to 65535;
+    signal process_counter  : integer range 0 to 65535;
+    signal write_counter    : integer range 0 to 65535;
     
 begin
 
@@ -89,59 +81,43 @@ begin
     end process;
     
     -- Processo per individuare lo stato prossimo
-    process(current_state, i_start, data_counter, process_counter, write_counter, coeff_counter, k_length)
+    process(current_state, i_start, idle_counter, data_counter, process_counter, write_counter, coeff_counter, k_length)
     begin
         -- Per evitare cambi di stato non voluti
         next_state <= current_state;
         
         case current_state is
             when IDLE =>
-                if i_start = '1' then
-                    next_state <= FETCH;
-                end if;
-                
-            when FETCH =>
-                if idle_flag = '1' then
+                if i_start = '1' and idle_counter = 1 then
                     next_state <= READ_K1;
-                end if;
-                if read_k1_flag = '1' then
-                    next_state <= READ_K2;
-                end if;
-                if read_k2_flag = '1' then
-                    next_state <= READ_S;
-                end if;
-                if read_s_flag = '1' then
-                    next_state <= READ_COEFFS;
-                end if;
-                if read_coeffs_flag = '1' then
-                    next_state <= READ_DATA;
-                end if;
-                if read_data_flag = '1' then
-                    next_state <= PROCESS_DATA;
                 end if;
             
             when READ_K1 =>
-                next_state <= FETCH;
+                next_state <= READ_K2;
                 
             when READ_K2 =>
-                next_state <= FETCH;
+                next_state <= READ_S;
                 
             when READ_S =>
-                next_state <= FETCH;
+                next_state <= READ_COEFFS;
                 
             when READ_COEFFS =>
-                next_state <= FETCH;
+                if coeff_counter = 13 then
+                    next_state <= READ_DATA;
+                end if;
                 
             when READ_DATA =>
-                next_state <= FETCH;
+                if data_counter = to_integer(k_length - 1) then
+                    next_state <= PROCESS_DATA;
+                end if;
                 
             when PROCESS_DATA =>
-                if process_counter = to_integer(k_length) then
+                if process_counter = to_integer(k_length - 1) then
                     next_state <= WRITE_RESULTS;
                 end if;
                 
             when WRITE_RESULTS =>
-                if write_counter = to_integer(k_length) then
+                if write_counter = to_integer(k_length - 1) then
                     next_state <= DONE_STATE;
                 end if;
                 
@@ -158,8 +134,8 @@ begin
     
     -- Processo per l'elaborazione dei dati
     process(i_clk, i_rst)
-        variable temp_result : signed(23 downto 0) := (others => '0');
-        variable normalized_result : signed(23 downto 0) := (others => '0');   
+        variable temp_result        : signed(23 downto 0) := (others => '0');
+        variable normalized_result  : signed(23 downto 0) := (others => '0');   
     begin
         if i_rst = '1' then
             -- Reset dei segnali
@@ -167,6 +143,7 @@ begin
             current_address <= (others => '0');
             k_length <= (others => '0');
             filter_order <= '0';
+            idle_counter <= 0;
             coeff_counter <= 0;
             data_counter <= 0;
             process_counter <= 0;
@@ -175,14 +152,7 @@ begin
             o_mem_we <= '0';
             o_mem_en <= '0';
             o_mem_addr <= (others => '0');
-            o_mem_data <= (others => '0');
-            idle_flag <= '0';
-            read_k1_flag <= '0';
-            read_k2_flag <= '0';
-            read_s_flag <= '0';
-            read_coeffs_flag <= '0';
-            read_data_flag <= '0';
-   
+            o_mem_data <= (others => '0');  
             
             -- Reset degli array
             for i in 0 to 6 loop
@@ -204,15 +174,17 @@ begin
                     -- Salva l'indirizzo iniziale e setta a 1 il segnale di accesso alla memoria
                     o_done <= '0';
                     if i_start = '1' then
-                        base_address <= unsigned(i_add);
-                        current_address <= unsigned(i_add);
-                        o_mem_addr <= i_add;
-                        o_mem_en <= '1';
-                        idle_flag <= '1';
+                        if idle_counter = 0 then
+                            base_address <= unsigned(i_add);
+                            current_address <= unsigned(i_add);
+                            o_mem_addr <= i_add;                            
+                        else
+                            current_address <= current_address + 1;
+                            o_mem_addr <= std_logic_vector(current_address + 1);
+                        end if;
+                        o_mem_en <= '1'; 
+                        idle_counter <= idle_counter + 1;
                     end if;
-                    
-                when FETCH =>
-                    null;
                     
                 when READ_K1 =>
                     -- Legge il primo byte per calcolare la lunghezza K e lo salva nelle prime 8 posizioni di k_lenght
@@ -220,7 +192,6 @@ begin
                     current_address <= current_address + 1;
                     o_mem_addr <= std_logic_vector(current_address + 1);
                     o_mem_en <= '1';
-                    read_k1_flag <= '1';
                     
                 when READ_K2 =>
                     -- Legge il secondo byte per calcolare la lunghezza K e lo salva nelle ultime 8 posizioni di k_lenght
@@ -228,7 +199,6 @@ begin
                     current_address <= current_address + 1;
                     o_mem_addr <= std_logic_vector(current_address + 1);
                     o_mem_en <= '1';
-                    read_k2_flag <= '1';
                     
                 when READ_S =>
                     -- Legge il byte S che indica l'ordine del filtro e salva in filter_order solo il bit meno significativo
@@ -237,7 +207,6 @@ begin
                     o_mem_addr <= std_logic_vector(current_address + 1);
                     o_mem_en <= '1';
                     coeff_counter <= 0;
-                    read_s_flag <= '1';
                     
                 when READ_COEFFS =>
                     -- Setta i coefficienti del filtro in base al valore del bit meno significativo S
@@ -259,7 +228,6 @@ begin
                     -- Se sei arrivato all'ultimo coefficiente, inizializza il contatore dei dati da leggere
                     if coeff_counter = 13 then
                         data_counter <= 0;
-                        read_coeffs_flag <= '1';
                     end if;
                     
                 when READ_DATA =>
@@ -273,7 +241,6 @@ begin
                     -- Se sei arrivato all'ultimo dato da leggere, inizializza il contatore dei dati da elaborare
                     if data_counter = to_integer(k_length) - 1 then
                         process_counter <= 0;
-                        read_data_flag <= '1';
                     end if;
                     
                 when PROCESS_DATA =>

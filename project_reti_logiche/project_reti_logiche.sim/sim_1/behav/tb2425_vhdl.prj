@@ -1,6 +1,6 @@
 # compile vhdl design source files
 vhdl xil_defaultlib  "../../../project_reti_logiche.srcs/sources_1/new/project_reti_logiche.vhd"
-vhdl xil_defaultlib  "../../../../TestBenches/filtro3_32759_1.vhd"
+vhdl xil_defaultlib  "../../../../TestBenches/tb2425.vhd"
 
 # Do not sort compile order
 nosort
