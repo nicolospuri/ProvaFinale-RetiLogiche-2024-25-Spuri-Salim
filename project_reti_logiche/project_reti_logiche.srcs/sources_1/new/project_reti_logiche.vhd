@@ -143,26 +143,22 @@ begin
             current_address <= (others => '0');
             k_length <= (others => '0');
             filter_order <= '0';
+            -- Reset dei contatori
             idle_counter <= 0;
             coeff_counter <= 0;
             data_counter <= 0;
             process_counter <= 0;
             write_counter <= 0;
+            -- Reset degli array
+            filter_coeffs <= (others => ( others => '0'));
+            input_data <= (others => ( others => '0'));
+            output_data <= (others => ( others => '0'));
+            
             o_done <= '0';
             o_mem_we <= '0';
             o_mem_en <= '0';
             o_mem_addr <= (others => '0');
             o_mem_data <= (others => '0');  
-            
-            -- Reset degli array
-            for i in 0 to 6 loop
-                filter_coeffs(i) <= (others => '0');
-            end loop;
-            
-            for i in 0 to 65535 loop
-                input_data(i) <= (others => '0');
-                output_data(i) <= (others => '0');
-            end loop;
             
         elsif rising_edge(i_clk) then
             -- Valori di default
