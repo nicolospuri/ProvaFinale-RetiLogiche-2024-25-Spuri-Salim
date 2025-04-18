@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Company: Politecnico di Milano
--- Students: Nicolò Spuri 10855846 244611, Ayoub Salim
+-- Students: Nicolï¿½ Spuri 10855846 244611, Ayoub Salim
 -- 
 -- Project Name: Prova Finale - Reti Logiche - 2024/25
 ----------------------------------------------------------------------------------
@@ -50,23 +50,20 @@ architecture Behavioral of project_reti_logiche is
     signal base_address     : unsigned(15 downto 0);
     signal current_address  : unsigned(15 downto 0);
     signal k_length         : unsigned(15 downto 0);
-    signal filter_order     : std_logic;  -- 0 per ordine 3, 1 per ordine 5
+    signal filter_order     : std_logic;                -- 0 per ordine 3, 1 per ordine 5
+    signal output_data      : signed(7 downto 0);
     
     -- Array per memorizzare i coefficienti del filtro
-    type filter is array (0 to 6) of signed(7 downto 0);
-    signal filter_coeffs : filter;
-    
-    -- Array per memorizzare i dati letti e quelli elaborati
-    type data_array is array (0 to 65535) of signed(7 downto 0);
-    signal input_data   : data_array;
-    signal output_data  : data_array;
+    type data is array (0 to 6) of signed(7 downto 0);
+    signal filter_coeffs    : data;
+    signal input_data       : data;
     
     -- Segnali di conteggio per il controllo del processo
     signal idle_counter     : integer range 0 to 2;
     signal coeff_counter    : integer range 0 to 14;
-    signal data_counter     : integer range 0 to 65535;
-    signal process_counter  : integer range 0 to 65535;
+    signal data_counter     : integer range 0 to 7;
     signal write_counter    : integer range 0 to 65535;
+    signal wait_flag        : std_logic;
     
 begin
 
@@ -107,14 +104,12 @@ begin
                 end if;
                 
             when READ_DATA =>
-                if data_counter = to_integer(k_length - 1) then
+                if data_counter = 6 then
                     next_state <= PROCESS_DATA;
                 end if;
                 
             when PROCESS_DATA =>
-                if process_counter = to_integer(k_length - 1) then
-                    next_state <= WRITE_RESULTS;
-                end if;
+                next_state <= WRITE_RESULTS;
                 
             when WRITE_RESULTS =>
                 if write_counter = to_integer(k_length - 1) then
@@ -134,7 +129,7 @@ begin
     
     -- Processo per l'elaborazione dei dati
     process(i_clk, i_rst)
-        variable temp_result        : signed(23 downto 0) := (others => '0');
+        variable temp_result        : signed(16 downto 0) := (others => '0');
         variable normalized_result  : signed(23 downto 0) := (others => '0');   
     begin
         if i_rst = '1' then
@@ -143,17 +138,20 @@ begin
             current_address <= (others => '0');
             k_length <= (others => '0');
             filter_order <= '0';
+            output_data <= (others => '0');
+
             -- Reset dei contatori
             idle_counter <= 0;
             coeff_counter <= 0;
             data_counter <= 0;
-            process_counter <= 0;
             write_counter <= 0;
+            wait_flag <= '0'
+
             -- Reset degli array
             filter_coeffs <= (others => ( others => '0'));
             input_data <= (others => ( others => '0'));
-            output_data <= (others => ( others => '0'));
             
+            -- Reset dei sengnali per la memoria e per il tb
             o_done <= '0';
             o_mem_we <= '0';
             o_mem_en <= '0';
@@ -213,13 +211,12 @@ begin
                         filter_coeffs(coeff_counter - 7) <= signed(i_mem_data);
                     end if;
                     
-                    -- Scorri i contatori
-                    if coeff_counter < 14 then
-                        coeff_counter <= coeff_counter + 1;
-                        current_address <= current_address + 1;
-                        o_mem_addr <= std_logic_vector(current_address + 1);
-                        o_mem_en <= '1';
-                    end if;
+                
+                    coeff_counter <= coeff_counter + 1;
+                    current_address <= current_address + 1;
+                    o_mem_addr <= std_logic_vector(current_address + 1);
+                    o_mem_en <= '1';
+                    
                     
                     -- Se sei arrivato all'ultimo coefficiente, inizializza il contatore dei dati da leggere
                     if coeff_counter = 13 then
@@ -228,17 +225,27 @@ begin
                     
                 when READ_DATA =>
                     -- Legge i dati da elaborare
-                    input_data(data_counter) <= signed(i_mem_data);
-                    data_counter <= data_counter + 1;
-                    o_mem_en <= '1';
-                    -- Scorri gli indirizzi se non sei arrivato all'ultimo
-                    if data_counter < to_integer(k_length) - 1 then
+                    if wait_flag = 1 then
                         current_address <= current_address + 1;
                         o_mem_addr <= std_logic_vector(current_address + 1);
                     else
-                    -- Se sei arrivato all'ultimo dato da leggere, inizializza il contatore dei dati da elaborare
-                        process_counter <= 0;
+                        if current_address - 1 < base_address + 17 OR current_address - 1 > base_address + 17 + k_lenght then  -- Caso oltre i limiti
+                            input_data(data_counter) <= (others => '0');
+                        else
+                            input_data(data_counter) <= signed(i_mem_data);
+                        end if; 
+                            
+                        data_counter <= data_counter + 1;
+                        
+                        -- Scorri l'indirizzo se non sei arrivato all'ultimo dei 7
+                        if data_counter < 6 then
+                            current_address <= current_address + 1;
+                            o_mem_addr <= std_logic_vector(current_address + 1);
+                        end if;
                     end if;
+
+                    wait_flag <= '0';
+                    o_mem_en <= '1';
                     
                 when PROCESS_DATA =>
                     -- Elabora i dati con il filtro
@@ -246,12 +253,7 @@ begin
                     normalized_result := (others => '0');
                                         
                     for i in 0 to 6 loop
-                        if process_counter + i - 3 < 0 or process_counter + i - 3 >= to_integer(k_length) then
-                            -- Fuori dai limiti, usa 0
-                            temp_result := temp_result + filter_coeffs(i) * 0;
-                        else
-                            temp_result := temp_result + filter_coeffs(i) * input_data(process_counter + i - 3);
-                        end if;
+                        temp_result := temp_result + filter_coeffs(i) * input_data(process_counter + i - 3);
                     end loop;
                     
                     if filter_order = '0' then
@@ -283,31 +285,29 @@ begin
                     
                     -- Saturazione
                     if normalized_result > 127 then
-                        output_data(process_counter) <= to_signed(127, 8);
+                        output_data <= to_signed(127, 8);
                     elsif normalized_result < -128 then
-                        output_data(process_counter) <= to_signed(-128, 8);
+                        output_data <= to_signed(-128, 8);
                     else
-                        output_data(process_counter) <= normalized_result(7 downto 0);
+                        output_data <= normalized_result(7 downto 0);
                     end if;
-                    
-                    process_counter <= process_counter + 1;
-                    
-                    -- Se sei arrivato all'ultimo dato da elaborare, inizializza il contatore dei dati da scrivere e
-                    -- imposta correttamente l'indirizzo da cui partire
-                    if process_counter = to_integer(k_length) - 1 then
-                        write_counter <= 0;
-                        current_address <= base_address + 17 + k_length;
-                    end if;
+                                    
+                    current_address <= base_address + 17 + k_length + write_counter;                    
                     
                 when WRITE_RESULTS =>
                     -- Scrive i risultati in memoria
                     o_mem_we <= '1';
                     o_mem_en <= '1';
                     o_mem_addr <= std_logic_vector(current_address);
-                    o_mem_data <= std_logic_vector(output_data(write_counter));
+                    o_mem_data <= std_logic_vector(output_data);
                     
-                    write_counter <= write_counter + 1;
-                    current_address <= current_address + 1;
+                    -- Reimposta l'indirizzo per leggere i dati
+                    if write_counter < k_lenght - 1 then
+                        current_address = base_address + 17 + write_counter + 1 - 3;
+                        wait_flag <= '1';
+                    end if;
+
+                    write_counter <= write_counter + 1;                 
                     
                 when DONE_STATE =>
                     o_done <= '1';
