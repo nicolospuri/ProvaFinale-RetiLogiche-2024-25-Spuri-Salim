@@ -64,7 +64,7 @@ architecture Behavioral of project_reti_logiche is
     signal coeff_counter    : integer range 0 to 14;
     signal data_counter     : integer range 0 to 7;
     signal read_wait        : std_logic;
-    signal write_wait       : std_logic;   
+    signal write_done       : std_logic;   
     
 begin
 
@@ -79,7 +79,7 @@ begin
     end process;
     
     -- Processo per individuare lo stato prossimo
-    process(current_state, i_start, idle_counter, data_counter, coeff_counter, k_length, read_wait, write_wait)
+    process(current_state, i_start, idle_counter, data_counter, coeff_counter, k_length, read_wait, write_done)
     begin
         -- Per evitare cambi di stato non voluti
         next_state <= current_state;
@@ -113,7 +113,7 @@ begin
                 next_state <= WRITE_RESULTS;
                 
             when WRITE_RESULTS =>
-                if write_wait = '0' then
+                if read_wait = '1' then
                     next_state <= READ_DATA;
                 end if;
                 if current_write_address = base_address + 17 + k_length + k_length then
@@ -133,7 +133,7 @@ begin
     
     -- Processo per l'elaborazione dei dati
     process(i_clk, i_rst)
-        variable temp_result        : signed(16 downto 0) := (others => '0');
+        variable temp_result        : signed(23 downto 0) := (others => '0');
         variable normalized_result  : signed(23 downto 0) := (others => '0');   
     begin
         if i_rst = '1' then
@@ -150,7 +150,7 @@ begin
             coeff_counter <= 0;
             data_counter <= 0;
             read_wait <= '0';
-            write_wait <= '0';
+            write_done <= '0';
 
             -- Reset degli array
             filter_coeffs <= (others => ( others => '0'));
@@ -217,7 +217,6 @@ begin
                         filter_coeffs(coeff_counter - 7) <= signed(i_mem_data);
                     end if;
                     
-                    
                     coeff_counter <= coeff_counter + 1;
                     current_read_address <= current_read_address + 1;
                     o_mem_addr <= std_logic_vector(current_read_address + 1);
@@ -235,23 +234,21 @@ begin
                     
                 when READ_DATA =>
                     -- Legge i dati da elaborare
-                    if read_wait = '1' then
+                    if current_read_address - 1 < base_address + 17 OR current_read_address - 1 > base_address + 17 + k_length - 1 then  -- Caso oltre i limiti
+                        input_data(data_counter) <= (others => '0');
+                    else
+                        input_data(data_counter) <= signed(i_mem_data);
+                    end if; 
+                        
+                    data_counter <= data_counter + 1;
+                    
+                    -- Scorri l'indirizzo se non sei arrivato all'ultimo dei 7
+                    if data_counter < 6 then
                         current_read_address <= current_read_address + 1;
                         o_mem_addr <= std_logic_vector(current_read_address + 1);
                     else
-                        if current_read_address - 1 < base_address + 17 OR current_read_address - 1 > base_address + 17 + k_length - 1 then  -- Caso oltre i limiti
-                            input_data(data_counter) <= (others => '0');
-                        else
-                            input_data(data_counter) <= signed(i_mem_data);
-                        end if; 
-                            
-                        data_counter <= data_counter + 1;
-                        
-                        -- Scorri l'indirizzo se non sei arrivato all'ultimo dei 7
-                        if data_counter < 6 then
-                            current_read_address <= current_read_address + 1;
-                            o_mem_addr <= std_logic_vector(current_read_address + 1);
-                        end if;
+                        -- Se sei all'ultimo dato da leggere reimposta l'indirizzo
+                        current_read_address <= current_read_address - 6;
                     end if;
 
                     read_wait <= '0';
@@ -302,24 +299,27 @@ begin
                         output_data <= normalized_result(7 downto 0);
                     end if;
                     
-                    write_wait <= '1';
-                    
                 when WRITE_RESULTS =>
                     -- Scrive i risultati in memoria
-                    if write_wait = '1' then
+                    if write_done = '0' then
                         o_mem_we <= '1';
-                        o_mem_en <= '1';
-                        current_write_address <= current_write_address + 1;    
+                        o_mem_en <= '1';    
                         o_mem_addr <= std_logic_vector(current_write_address);
                         o_mem_data <= std_logic_vector(output_data);
-                        write_wait <= '0';
-                    elsif current_write_address < base_address + 17 + k_length + k_length then                                                                            
+                        current_write_address <= current_write_address + 1;
+                        write_done <= '1';
+                    elsif read_wait = '0' AND current_write_address < base_address + 17 + k_length + k_length then                                                                         
                         -- Reimposta l'indirizzo per leggere i dati
-                        current_read_address <= current_read_address - 6;
-                        o_mem_addr <= std_logic_vector(current_read_address - 6);
+                        o_mem_addr <= std_logic_vector(current_read_address);
+                        read_wait <= '1';
+                    elsif read_wait <= '1' AND current_write_address < base_address + 17 + k_length + k_length then
+                        -- Scorri dinuovo l'indirizzo per leggere i dati così lo stato READ_DATA può leggere subito il dato
+                        o_mem_addr <= std_logic_vector(current_read_address + 1);
+                        current_read_address <= current_read_address + 1;
                         o_mem_en <= '1';
                         data_counter <= 0;
-                        read_wait <= '1';
+                        read_wait <= '0';
+                        write_done <= '0';
                     end if;
                     
                 when DONE_STATE =>
