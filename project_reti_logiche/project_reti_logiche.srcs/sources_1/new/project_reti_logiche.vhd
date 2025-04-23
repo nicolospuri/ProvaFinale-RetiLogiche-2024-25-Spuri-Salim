@@ -181,7 +181,7 @@ begin
                             current_read_address <= current_read_address + 1;
                             o_mem_addr <= std_logic_vector(current_read_address + 1);
                         end if;
-                        o_mem_en <= '1'; 
+                        o_mem_en <= '1';
                         idle_counter <= idle_counter + 1;
                     end if;
                     
@@ -246,13 +246,12 @@ begin
                     if data_counter < 6 then
                         current_read_address <= current_read_address + 1;
                         o_mem_addr <= std_logic_vector(current_read_address + 1);
+                        o_mem_en <= '1';
                     else
                         -- Se sei all'ultimo dato da leggere reimposta l'indirizzo
                         current_read_address <= current_read_address - 6;
-                    end if;
-
-                    read_wait <= '0';
-                    o_mem_en <= '1';
+                        read_wait <= '0';
+                    end if;                
                     
                 when PROCESS_DATA =>
                     -- Elabora i dati con il filtro
@@ -299,6 +298,8 @@ begin
                         output_data <= normalized_result(7 downto 0);
                     end if;
                     
+                    write_done <= '0';
+                    
                 when WRITE_RESULTS =>
                     -- Scrive i risultati in memoria
                     if write_done = '0' then
@@ -312,14 +313,13 @@ begin
                         -- Reimposta l'indirizzo per leggere i dati
                         o_mem_addr <= std_logic_vector(current_read_address);
                         read_wait <= '1';
-                    elsif read_wait <= '1' AND current_write_address < base_address + 17 + k_length + k_length then
+                    elsif read_wait = '1' AND current_write_address < base_address + 17 + k_length + k_length then
                         -- Scorri dinuovo l'indirizzo per leggere i dati così lo stato READ_DATA può leggere subito il dato
                         o_mem_addr <= std_logic_vector(current_read_address + 1);
                         current_read_address <= current_read_address + 1;
                         o_mem_en <= '1';
                         data_counter <= 0;
                         read_wait <= '0';
-                        write_done <= '0';
                     end if;
                     
                 when DONE_STATE =>
