@@ -60,7 +60,7 @@ architecture Behavioral of project_reti_logiche is
     signal input_data       : data;
     
     -- Segnali di conteggio per il controllo del processo
-    signal idle_counter     : integer range 0 to 2;
+    signal idle_wait        : std_logic;
     signal coeff_counter    : integer range 0 to 14;
     signal data_counter     : integer range 0 to 7;
     signal read_wait        : std_logic;
@@ -79,14 +79,14 @@ begin
     end process;
     
     -- Processo per individuare lo stato prossimo
-    process(current_state, i_start, idle_counter, data_counter, coeff_counter, k_length, read_wait, write_done)
+    process(current_state, i_start, idle_wait, data_counter, coeff_counter, k_length, read_wait, write_done)
     begin
         -- Per evitare cambi di stato non voluti
         next_state <= current_state;
         
         case current_state is
             when IDLE =>
-                if i_start = '1' and idle_counter = 1 then
+                if i_start = '1' and idle_wait = '1' then
                     next_state <= READ_K1;
                 end if;
             
@@ -146,7 +146,7 @@ begin
             output_data <= (others => '0');
 
             -- Reset dei contatori
-            idle_counter <= 0;
+            idle_wait <= '0';
             coeff_counter <= 0;
             data_counter <= 0;
             read_wait <= '0';
@@ -173,16 +173,18 @@ begin
                     -- Salva l'indirizzo iniziale e setta a 1 il segnale di accesso alla memoria
                     o_done <= '0';
                     if i_start = '1' then
-                        if idle_counter = 0 then
+                        if idle_wait = '0' then
                             base_address <= unsigned(i_add);
                             current_read_address <= unsigned(i_add);
-                            o_mem_addr <= i_add;                            
+                            o_mem_addr <= i_add;
+                            idle_wait <= '1';
                         else
                             current_read_address <= current_read_address + 1;
                             o_mem_addr <= std_logic_vector(current_read_address + 1);
+                            idle_wait <= '0';
                         end if;
                         o_mem_en <= '1';
-                        idle_counter <= idle_counter + 1;
+
                     end if;
                     
                 when READ_K1 =>
@@ -259,7 +261,11 @@ begin
                     normalized_result := (others => '0');
                                         
                     for i in 0 to 6 loop
-                        temp_result := temp_result + filter_coeffs(i) * input_data(i);
+                        if filter_order = '0' AND (i = 0 OR i = 6) then   -- Se stai usando il filtro di ordine 3, non  considerare il primo e l'ultimo coefficiente
+                            temp_result := temp_result + 0 * input_data(i);
+                        else
+                            temp_result := temp_result + filter_coeffs(i) * input_data(i);
+                        end if;
                     end loop;
                     
                     if filter_order = '0' then
@@ -304,7 +310,6 @@ begin
                     -- Scrive i risultati in memoria
                     if write_done = '0' then
                         o_mem_we <= '1';
-                        o_mem_en <= '1';    
                         o_mem_addr <= std_logic_vector(current_write_address);
                         o_mem_data <= std_logic_vector(output_data);
                         current_write_address <= current_write_address + 1;
@@ -317,10 +322,10 @@ begin
                         -- Scorri dinuovo l'indirizzo per leggere i dati così lo stato READ_DATA può leggere subito il dato
                         o_mem_addr <= std_logic_vector(current_read_address + 1);
                         current_read_address <= current_read_address + 1;
-                        o_mem_en <= '1';
                         data_counter <= 0;
                         read_wait <= '0';
                     end if;
+                    o_mem_en <= '1';
                     
                 when DONE_STATE =>
                     o_done <= '1';

@@ -3,10 +3,10 @@
 <!--The data in this file is primarily intended for consumption by Xilinx tools.
 The structure and the elements are likely to change over the next few releases.
 This means code written to parse this file will need to be revisited each subsequent release.-->
-<application name="pa" timeStamp="Wed Apr 23 21:57:58 2025">
+<application name="pa" timeStamp="Thu Apr 24 10:25:51 2025">
 <section name="Project Information" visible="false">
 <property name="ProjectID" value="a887f6e02825424cb7007c74081b282f" type="ProjectID"/>
-<property name="ProjectIteration" value="1" type="ProjectIteration"/>
+<property name="ProjectIteration" value="5" type="ProjectIteration"/>
 </section>
 <section name="PlanAhead Usage" visible="true">
 <item name="Project Data">
@@ -17,34 +17,29 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="ImplStrategy" value="Vivado Implementation Defaults" type="ImplStrategy"/>
 </item>
 <item name="Java Command Handlers">
-<property name="AddSources" value="7" type="JavaHandler"/>
-<property name="EditDelete" value="5" type="JavaHandler"/>
+<property name="AddSources" value="19" type="JavaHandler"/>
+<property name="EditDelete" value="16" type="JavaHandler"/>
 <property name="EditUndo" value="3" type="JavaHandler"/>
 <property name="NewProject" value="1" type="JavaHandler"/>
 <property name="ProjectSettingsCmdHandler" value="2" type="JavaHandler"/>
-<property name="RunSynthesis" value="5" type="JavaHandler"/>
-<property name="SaveFileProxyHandler" value="7" type="JavaHandler"/>
+<property name="ReportTimingSummary" value="1" type="JavaHandler"/>
+<property name="RunImplementation" value="4" type="JavaHandler"/>
+<property name="RunSynthesis" value="9" type="JavaHandler"/>
+<property name="SaveFileProxyHandler" value="12" type="JavaHandler"/>
 <property name="ShowView" value="2" type="JavaHandler"/>
-<property name="SimulationClose" value="61" type="JavaHandler"/>
+<property name="SimulationClose" value="83" type="JavaHandler"/>
 <property name="SimulationRelaunch" value="2" type="JavaHandler"/>
-<property name="SimulationRestart" value="83" type="JavaHandler"/>
-<property name="SimulationRun" value="86" type="JavaHandler"/>
-<property name="SimulationRunAll" value="169" type="JavaHandler"/>
+<property name="SimulationRestart" value="96" type="JavaHandler"/>
+<property name="SimulationRun" value="111" type="JavaHandler"/>
+<property name="SimulationRunAll" value="213" type="JavaHandler"/>
 <property name="SimulationRunForTime" value="395" type="JavaHandler"/>
-<property name="SimulationStep" value="2853" type="JavaHandler"/>
+<property name="SimulationStep" value="2971" type="JavaHandler"/>
 <property name="UnselectAllCmdHandler" value="1" type="JavaHandler"/>
-<property name="ViewTaskProjectManager" value="83" type="JavaHandler"/>
-<property name="ViewTaskSimulation" value="11" type="JavaHandler"/>
-<property name="WaveformSaveConfiguration" value="3" type="JavaHandler"/>
-</item>
-<item name="Gui Resources Info">
-<property name="PAResourceEtoH.GettingStartedView_RECENT_PROJECTS, C:/Users/Nicky/Desktop/POLIMI/Corsi/ProveFinali/RL/project_reti_logiche/project_reti_logiche.xpr, 0" value="1" type="GuiResourceData"/>
-<property name="PAResourceQtoS.StateMonitor_CANCEL, Cancel" value="1" type="GuiResourceData"/>
-</item>
-<item name="Other">
-<property name="GuiMode" value="34" type="GuiMode"/>
-<property name="BatchMode" value="0" type="BatchMode"/>
-<property name="TclMode" value="23" type="TclMode"/>
+<property name="ViewTaskImplementation" value="3" type="JavaHandler"/>
+<property name="ViewTaskProjectManager" value="110" type="JavaHandler"/>
+<property name="ViewTaskRTLAnalysis" value="1" type="JavaHandler"/>
+<property name="ViewTaskSimulation" value="12" type="JavaHandler"/>
+<property name="WaveformSaveConfiguration" value="4" type="JavaHandler"/>
 </item>
 </section>
 </application>

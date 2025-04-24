@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb2425_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="tb2425" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="656997322780fs"></ZoomStartTime>
+      <ZoomEndTime time="657332822781fs"></ZoomEndTime>
+      <Cursor1Time time="7863010000000fs"></Cursor1Time>
+   </zoom_setting>
+   <WVObjectSize size="51" />
+   <wvobject fp_name="/tb2425/tb_clk" type="logic">
+      <obj_property name="ElementShortName">tb_clk</obj_property>
+      <obj_property name="ObjectShortName">tb_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/tb_rst" type="logic">
+      <obj_property name="ElementShortName">tb_rst</obj_property>
+      <obj_property name="ObjectShortName">tb_rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/tb_start" type="logic">
+      <obj_property name="ElementShortName">tb_start</obj_property>
+      <obj_property name="ObjectShortName">tb_start</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/tb_done" type="logic">
+      <obj_property name="ElementShortName">tb_done</obj_property>
+      <obj_property name="ObjectShortName">tb_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/tb_add" type="array">
+      <obj_property name="ElementShortName">tb_add[15:0]</obj_property>
+      <obj_property name="ObjectShortName">tb_add[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/tb_o_mem_addr" type="array">
+      <obj_property name="ElementShortName">tb_o_mem_addr[15:0]</obj_property>
+      <obj_property name="ObjectShortName">tb_o_mem_addr[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/exc_o_mem_addr" type="array">
+      <obj_property name="ElementShortName">exc_o_mem_addr[15:0]</obj_property>
+      <obj_property name="ObjectShortName">exc_o_mem_addr[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/init_o_mem_addr" type="array">
+      <obj_property name="ElementShortName">init_o_mem_addr[15:0]</obj_property>
+      <obj_property name="ObjectShortName">init_o_mem_addr[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/tb_o_mem_data" type="array">
+      <obj_property name="ElementShortName">tb_o_mem_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">tb_o_mem_data[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/exc_o_mem_data" type="array">
+      <obj_property name="ElementShortName">exc_o_mem_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">exc_o_mem_data[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/init_o_mem_data" type="array">
+      <obj_property name="ElementShortName">init_o_mem_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">init_o_mem_data[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/tb_i_mem_data" type="array">
+      <obj_property name="ElementShortName">tb_i_mem_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">tb_i_mem_data[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/tb_o_mem_we" type="logic">
+      <obj_property name="ElementShortName">tb_o_mem_we</obj_property>
+      <obj_property name="ObjectShortName">tb_o_mem_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/tb_o_mem_en" type="logic">
+      <obj_property name="ElementShortName">tb_o_mem_en</obj_property>
+      <obj_property name="ObjectShortName">tb_o_mem_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/exc_o_mem_we" type="logic">
+      <obj_property name="ElementShortName">exc_o_mem_we</obj_property>
+      <obj_property name="ObjectShortName">exc_o_mem_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/exc_o_mem_en" type="logic">
+      <obj_property name="ElementShortName">exc_o_mem_en</obj_property>
+      <obj_property name="ObjectShortName">exc_o_mem_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/init_o_mem_we" type="logic">
+      <obj_property name="ElementShortName">init_o_mem_we</obj_property>
+      <obj_property name="ObjectShortName">init_o_mem_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/init_o_mem_en" type="logic">
+      <obj_property name="ElementShortName">init_o_mem_en</obj_property>
+      <obj_property name="ObjectShortName">init_o_mem_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/scenario_config" type="array">
+      <obj_property name="ElementShortName">scenario_config[0:16]</obj_property>
+      <obj_property name="ObjectShortName">scenario_config[0:16]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/scenario_input" type="array">
+      <obj_property name="ElementShortName">scenario_input[0:32758]</obj_property>
+      <obj_property name="ObjectShortName">scenario_input[0:32758]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/scenario_output" type="array">
+      <obj_property name="ElementShortName">scenario_output[0:32758]</obj_property>
+      <obj_property name="ObjectShortName">scenario_output[0:32758]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/memory_control" type="logic">
+      <obj_property name="ElementShortName">memory_control</obj_property>
+      <obj_property name="ObjectShortName">memory_control</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/CLOCK_PERIOD" type="other">
+      <obj_property name="ElementShortName">CLOCK_PERIOD</obj_property>
+      <obj_property name="ObjectShortName">CLOCK_PERIOD</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/SCENARIO_LENGTH" type="other">
+      <obj_property name="ElementShortName">SCENARIO_LENGTH</obj_property>
+      <obj_property name="ObjectShortName">SCENARIO_LENGTH</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/SCENARIO_LENGTH_STL" type="array">
+      <obj_property name="ElementShortName">SCENARIO_LENGTH_STL[15:0]</obj_property>
+      <obj_property name="ObjectShortName">SCENARIO_LENGTH_STL[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/SCENARIO_ADDRESS" type="other">
+      <obj_property name="ElementShortName">SCENARIO_ADDRESS</obj_property>
+      <obj_property name="ObjectShortName">SCENARIO_ADDRESS</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/i_clk" type="logic">
+      <obj_property name="ElementShortName">i_clk</obj_property>
+      <obj_property name="ObjectShortName">i_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/i_rst" type="logic">
+      <obj_property name="ElementShortName">i_rst</obj_property>
+      <obj_property name="ObjectShortName">i_rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/i_start" type="logic">
+      <obj_property name="ElementShortName">i_start</obj_property>
+      <obj_property name="ObjectShortName">i_start</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/i_add" type="array">
+      <obj_property name="ElementShortName">i_add[15:0]</obj_property>
+      <obj_property name="ObjectShortName">i_add[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/o_done" type="logic">
+      <obj_property name="ElementShortName">o_done</obj_property>
+      <obj_property name="ObjectShortName">o_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/o_mem_addr" type="array">
+      <obj_property name="ElementShortName">o_mem_addr[15:0]</obj_property>
+      <obj_property name="ObjectShortName">o_mem_addr[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/i_mem_data" type="array">
+      <obj_property name="ElementShortName">i_mem_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">i_mem_data[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/o_mem_data" type="array">
+      <obj_property name="ElementShortName">o_mem_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">o_mem_data[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/o_mem_we" type="logic">
+      <obj_property name="ElementShortName">o_mem_we</obj_property>
+      <obj_property name="ObjectShortName">o_mem_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/o_mem_en" type="logic">
+      <obj_property name="ElementShortName">o_mem_en</obj_property>
+      <obj_property name="ObjectShortName">o_mem_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/current_state" type="other">
+      <obj_property name="ElementShortName">current_state</obj_property>
+      <obj_property name="ObjectShortName">current_state</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/next_state" type="other">
+      <obj_property name="ElementShortName">next_state</obj_property>
+      <obj_property name="ObjectShortName">next_state</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/base_address" type="array">
+      <obj_property name="ElementShortName">base_address[15:0]</obj_property>
+      <obj_property name="ObjectShortName">base_address[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/current_read_address" type="array">
+      <obj_property name="ElementShortName">current_read_address[15:0]</obj_property>
+      <obj_property name="ObjectShortName">current_read_address[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/current_write_address" type="array">
+      <obj_property name="ElementShortName">current_write_address[15:0]</obj_property>
+      <obj_property name="ObjectShortName">current_write_address[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/k_length" type="array">
+      <obj_property name="ElementShortName">k_length[15:0]</obj_property>
+      <obj_property name="ObjectShortName">k_length[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/filter_order" type="logic">
+      <obj_property name="ElementShortName">filter_order</obj_property>
+      <obj_property name="ObjectShortName">filter_order</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/output_data" type="array">
+      <obj_property name="ElementShortName">output_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">output_data[7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/filter_coeffs" type="array">
+      <obj_property name="ElementShortName">filter_coeffs[0:6][7:0]</obj_property>
+      <obj_property name="ObjectShortName">filter_coeffs[0:6][7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/input_data" type="array">
+      <obj_property name="ElementShortName">input_data[0:6][7:0]</obj_property>
+      <obj_property name="ObjectShortName">input_data[0:6][7:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/idle_counter" type="other">
+      <obj_property name="ElementShortName">idle_counter</obj_property>
+      <obj_property name="ObjectShortName">idle_counter</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/coeff_counter" type="other">
+      <obj_property name="ElementShortName">coeff_counter</obj_property>
+      <obj_property name="ObjectShortName">coeff_counter</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/data_counter" type="other">
+      <obj_property name="ElementShortName">data_counter</obj_property>
+      <obj_property name="ObjectShortName">data_counter</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/read_wait" type="logic">
+      <obj_property name="ElementShortName">read_wait</obj_property>
+      <obj_property name="ObjectShortName">read_wait</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb2425/UUT/write_done" type="logic">
+      <obj_property name="ElementShortName">write_done</obj_property>
+      <obj_property name="ObjectShortName">write_done</obj_property>
+   </wvobject>
+</wave_config>

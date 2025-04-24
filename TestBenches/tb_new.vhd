@@ -283,7 +283,7 @@ begin
         assert tb_o_mem_en = '0' or tb_o_mem_we = '0' report "TEST FALLITO o_mem_en !=0 memory should not be written after done." severity failure;
  
         for i in 0 to SCENARIO_LENGTH2-1 loop
-            assert RAM(SCENARIO_ADDRESS2+17+SCENARIO_LENGTH2+i) = std_logic_vector(to_unsigned(scenario_output2(i),8)) report "TEST FALLITO @ OFFSET=" & integer'image(17+SCENARIO_LENGTH2+i) & " expected= " & integer'image(scenario_output2(i)) & " actual=" & integer'image(to_integer(unsigned(RAM(SCENARIO_ADDRESS2+17+SCENARIO_LENGTH2+i)))) severity failure;
+            assert RAM(SCENARIO_ADDRESS2+17+SCENARIO_LENGTH2+i) = std_logic_vector(to_unsigned(scenario_output2(i),8)) report "TEST FALLITO @ OFFSET=" & integer'image(17+SCENARIO_LENGTH2+i) & " expected= " & integer'image(scenario_output2(i)) & " actual=" & integer'image(to_integer(signed(RAM(SCENARIO_ADDRESS2+17+SCENARIO_LENGTH2+i)))) severity failure;
         end loop;
  
         wait until falling_edge(tb_start);
