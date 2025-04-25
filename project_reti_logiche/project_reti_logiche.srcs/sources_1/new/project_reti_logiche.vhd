@@ -79,7 +79,7 @@ begin
     end process;
     
     -- Processo per individuare lo stato prossimo
-    process(current_state, i_start, idle_wait, data_counter, coeff_counter, k_length, read_wait, write_done)
+    process(current_state, i_start, idle_wait, data_counter, coeff_counter, k_length, read_wait, write_done, current_write_address)
     begin
         -- Per evitare cambi di stato non voluti
         next_state <= current_state;

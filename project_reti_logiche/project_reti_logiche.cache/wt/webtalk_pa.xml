@@ -3,10 +3,10 @@
 <!--The data in this file is primarily intended for consumption by Xilinx tools.
 The structure and the elements are likely to change over the next few releases.
 This means code written to parse this file will need to be revisited each subsequent release.-->
-<application name="pa" timeStamp="Thu Apr 24 10:25:51 2025">
+<application name="pa" timeStamp="Fri Apr 25 08:59:57 2025">
 <section name="Project Information" visible="false">
 <property name="ProjectID" value="a887f6e02825424cb7007c74081b282f" type="ProjectID"/>
-<property name="ProjectIteration" value="5" type="ProjectIteration"/>
+<property name="ProjectIteration" value="6" type="ProjectIteration"/>
 </section>
 <section name="PlanAhead Usage" visible="true">
 <item name="Project Data">
@@ -22,24 +22,51 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="EditUndo" value="3" type="JavaHandler"/>
 <property name="NewProject" value="1" type="JavaHandler"/>
 <property name="ProjectSettingsCmdHandler" value="2" type="JavaHandler"/>
-<property name="ReportTimingSummary" value="1" type="JavaHandler"/>
-<property name="RunImplementation" value="4" type="JavaHandler"/>
-<property name="RunSynthesis" value="9" type="JavaHandler"/>
+<property name="ReportTimingSummary" value="2" type="JavaHandler"/>
+<property name="RunImplementation" value="5" type="JavaHandler"/>
+<property name="RunSynthesis" value="10" type="JavaHandler"/>
 <property name="SaveFileProxyHandler" value="12" type="JavaHandler"/>
-<property name="ShowView" value="2" type="JavaHandler"/>
+<property name="ShowView" value="4" type="JavaHandler"/>
 <property name="SimulationClose" value="83" type="JavaHandler"/>
 <property name="SimulationRelaunch" value="2" type="JavaHandler"/>
 <property name="SimulationRestart" value="96" type="JavaHandler"/>
-<property name="SimulationRun" value="111" type="JavaHandler"/>
-<property name="SimulationRunAll" value="213" type="JavaHandler"/>
+<property name="SimulationRun" value="114" type="JavaHandler"/>
+<property name="SimulationRunAll" value="215" type="JavaHandler"/>
 <property name="SimulationRunForTime" value="395" type="JavaHandler"/>
 <property name="SimulationStep" value="2971" type="JavaHandler"/>
 <property name="UnselectAllCmdHandler" value="1" type="JavaHandler"/>
-<property name="ViewTaskImplementation" value="3" type="JavaHandler"/>
-<property name="ViewTaskProjectManager" value="110" type="JavaHandler"/>
+<property name="ViewTaskImplementation" value="5" type="JavaHandler"/>
+<property name="ViewTaskProjectManager" value="113" type="JavaHandler"/>
 <property name="ViewTaskRTLAnalysis" value="1" type="JavaHandler"/>
 <property name="ViewTaskSimulation" value="12" type="JavaHandler"/>
 <property name="WaveformSaveConfiguration" value="4" type="JavaHandler"/>
+</item>
+<item name="Gui Resources Info">
+<property name="PAResourceCommand.PACommandNames_SIMULATION_LIVE_RUN_ALL, simulation_live_run_all" value="2" type="GuiResourceData"/>
+<property name="PAResourceCommand.PACommandNames_SIMULATION_RUN_POST_IMPLEMENTATION_FUNCTIONAL, Run Post-Implementation Functional Simulation" value="1" type="GuiResourceData"/>
+<property name="PAResourceCommand.PACommandNames_SIMULATION_RUN_POST_SYNTHESIS_FUNCTIONAL, Run Post-Synthesis Functional Simulation" value="1" type="GuiResourceData"/>
+<property name="PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, [root, Simulation Sources, sim_1], 4" value="1" type="GuiResourceData"/>
+<property name="PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, [root, Simulation Sources], 3" value="1" type="GuiResourceData"/>
+<property name="PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, [, Project Manager], 0, true" value="1" type="GuiResourceData"/>
+<property name="PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, [, Simulation, Run Simulation], 11, false" value="2" type="GuiResourceData"/>
+<property name="PAResourceItoN.NavigableTimingReportTab_TIMING_REPORT_NAVIGATION_TREE, [Root, Check Timing], 4, true" value="1" type="GuiResourceData"/>
+<property name="PAResourceOtoP.ProjectSummaryPowerPanel_TABBED_PANE, PAResourceOtoP.ProjectSummaryPowerPanel_ON_CHIP, On-Chip, 1" value="2" type="GuiResourceData"/>
+<property name="PAResourceOtoP.ProjectSummaryPowerPanel_TABBED_PANE, PAResourceOtoP.ProjectSummaryPowerPanel_SUMMARY, Summary, 0" value="2" type="GuiResourceData"/>
+<property name="PAResourceOtoP.ProjectSummaryTimingPanel_PROJECT_SUMMARY_TIMING_PANEL_TABBED, PAResourceOtoP.ProjectSummaryTimingPanel_HOLD, Hold, 1" value="1" type="GuiResourceData"/>
+<property name="PAResourceOtoP.ProjectSummaryTimingPanel_PROJECT_SUMMARY_TIMING_PANEL_TABBED, PAResourceOtoP.ProjectSummaryTimingPanel_PULSE_WIDTH, Pulse Width, 2" value="1" type="GuiResourceData"/>
+<property name="PAResourceOtoP.ProjectSummaryTimingPanel_PROJECT_SUMMARY_TIMING_PANEL_TABBED, PAResourceOtoP.ProjectSummaryTimingPanel_SETUP, Setup, 0" value="1" type="GuiResourceData"/>
+<property name="PAResourceOtoP.ProjectSummaryUtilizationGadget_PROJECT_SUMMARY_UTILIZATION_GADGET_TABBED, PAResourceOtoP.ProjectSummaryUtilizationGadget_POST_IMPLEMENTATION, Post-Implementation, 1" value="2" type="GuiResourceData"/>
+<property name="PAResourceOtoP.ProjectSummaryUtilizationGadget_PROJECT_SUMMARY_UTILIZATION_GADGET_TABBED, PAResourceOtoP.ProjectSummaryUtilizationGadget_POST_SYNTHESIS, Post-Synthesis, 0" value="3" type="GuiResourceData"/>
+<property name="PAResourceOtoP.ProjectSummaryUtilizationPanel_PROJECT_SUMMARY_UTILIZATION_PANEL_TABBED, PAResourceOtoP.ProjectSummaryUtilizationPanel_GRAPH, Graph, 0" value="2" type="GuiResourceData"/>
+<property name="PAResourceOtoP.ProjectSummaryUtilizationPanel_PROJECT_SUMMARY_UTILIZATION_PANEL_TABBED, PAResourceOtoP.ProjectSummaryUtilizationPanel_TABLE, Table, 1" value="2" type="GuiResourceData"/>
+<property name="PAResourceQtoS.SimulationScopesPanel_SIMULATION_SCOPES_TREE_TABLE, glbl ; glbl ; Verilog Module, 2, glbl, 0, false" value="1" type="GuiResourceData"/>
+<property name="PAResourceQtoS.SimulationScopesPanel_SIMULATION_SCOPES_TREE_TABLE, tb2425 ; tb2425(project_tb_arch" value="1" type="GuiResourceData"/>
+<property name="RDIResource.BaseDialog_OK, OK" value="1" type="GuiResourceData"/>
+</item>
+<item name="Other">
+<property name="GuiMode" value="38" type="GuiMode"/>
+<property name="BatchMode" value="0" type="BatchMode"/>
+<property name="TclMode" value="27" type="TclMode"/>
 </item>
 </section>
 </application>
