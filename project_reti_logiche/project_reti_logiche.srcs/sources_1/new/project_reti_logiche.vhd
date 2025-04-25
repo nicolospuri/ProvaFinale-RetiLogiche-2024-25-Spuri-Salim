@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Company: Politecnico di Milano
--- Students: Nicol� Spuri 10855846 244611, Ayoub Salim
+-- Students: Nicolo Spuri 10855846 244611, Ayoub Salim 10839480 216173
 -- 
 -- Project Name: Prova Finale - Reti Logiche - 2024/25
 ----------------------------------------------------------------------------------
@@ -47,7 +47,6 @@ architecture Behavioral of project_reti_logiche is
     signal current_state, next_state : state_type;
     
     -- Segnali per gli indirizzi, per il numero di dati in input e per l'ordine del filtro
-    signal base_address             : unsigned(15 downto 0);
     signal current_read_address     : unsigned(15 downto 0);
     signal current_write_address    : unsigned(15 downto 0);
     signal k_length                 : unsigned(15 downto 0);
@@ -79,7 +78,7 @@ begin
     end process;
     
     -- Processo per individuare lo stato prossimo
-    process(current_state, i_start, idle_wait, data_counter, coeff_counter, k_length, read_wait, write_done, current_write_address)
+    process(current_state, i_start, idle_wait, i_add, data_counter, coeff_counter, k_length, read_wait, write_done, current_write_address)
     begin
         -- Per evitare cambi di stato non voluti
         next_state <= current_state;
@@ -116,7 +115,7 @@ begin
                 if read_wait = '1' then
                     next_state <= READ_DATA;
                 end if;
-                if current_write_address = base_address + 17 + k_length + k_length then
+                if current_write_address = unsigned(i_add) + 17 + k_length + k_length then
                     next_state <= DONE_STATE;
                 end if;
                 
@@ -138,7 +137,6 @@ begin
     begin
         if i_rst = '1' then
             -- Reset dei segnali
-            base_address <= (others => '0');
             current_read_address <= (others => '0');
             current_write_address <= (others => '0');
             k_length <= (others => '0');
@@ -174,7 +172,6 @@ begin
                     o_done <= '0';
                     if i_start = '1' then
                         if idle_wait = '0' then
-                            base_address <= unsigned(i_add);
                             current_read_address <= unsigned(i_add);
                             o_mem_addr <= i_add;
                             idle_wait <= '1';
@@ -203,7 +200,7 @@ begin
                     
                 when READ_S =>
                     -- Legge il byte S che indica l'ordine del filtro e salva in filter_order solo il bit meno significativo
-                    current_write_address <= base_address + 17 + k_length;
+                    current_write_address <= unsigned(i_add) + 17 + k_length;
                     filter_order <= i_mem_data(0);
                     current_read_address <= current_read_address + 1;
                     o_mem_addr <= std_logic_vector(current_read_address + 1);
@@ -236,7 +233,7 @@ begin
                     
                 when READ_DATA =>
                     -- Legge i dati da elaborare
-                    if current_read_address - 1 < base_address + 17 OR current_read_address - 1 > base_address + 17 + k_length - 1 then  -- Caso oltre i limiti
+                    if current_read_address - 1 < unsigned(i_add) + 17 OR current_read_address - 1 > unsigned(i_add) + 17 + k_length - 1 then  -- Caso oltre i limiti
                         input_data(data_counter) <= (others => '0');
                     else
                         input_data(data_counter) <= signed(i_mem_data);
@@ -314,11 +311,11 @@ begin
                         o_mem_data <= std_logic_vector(output_data);
                         current_write_address <= current_write_address + 1;
                         write_done <= '1';
-                    elsif read_wait = '0' AND current_write_address < base_address + 17 + k_length + k_length then                                                                         
+                    elsif read_wait = '0' AND current_write_address < unsigned(i_add) + 17 + k_length + k_length then                                                                         
                         -- Reimposta l'indirizzo per leggere i dati
                         o_mem_addr <= std_logic_vector(current_read_address);
                         read_wait <= '1';
-                    elsif read_wait = '1' AND current_write_address < base_address + 17 + k_length + k_length then
+                    elsif read_wait = '1' AND current_write_address < unsigned(i_add) + 17 + k_length + k_length then
                         -- Scorri dinuovo l'indirizzo per leggere i dati così lo stato READ_DATA può leggere subito il dato
                         o_mem_addr <= std_logic_vector(current_read_address + 1);
                         current_read_address <= current_read_address + 1;

@@ -1,7 +1,7 @@
 Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2016.1 (win64) Build 1538259 Fri Apr  8 15:45:27 MDT 2016
-| Date         : Fri Apr 25 08:37:01 2025
+| Date         : Fri Apr 25 09:32:12 2025
 | Host         : PC-WINSOZ running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file project_reti_logiche_control_sets_placed.rpt
 | Design       : project_reti_logiche
@@ -22,7 +22,7 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Number of unique control sets                            |    27 |
+| Number of unique control sets                            |    26 |
 | Unused register locations in slices containing registers |    22 |
 +----------------------------------------------------------+-------+
 
@@ -37,7 +37,7 @@ Table of Contents
 | No           | No                    | Yes                    |               8 |            6 |
 | No           | Yes                   | No                     |               0 |            0 |
 | Yes          | No                    | No                     |               0 |            0 |
-| Yes          | No                    | Yes                    |             218 |          102 |
+| Yes          | No                    | Yes                    |             202 |           98 |
 | Yes          | Yes                   | No                     |               0 |            0 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
@@ -54,27 +54,26 @@ Table of Contents
 |  i_clk_IBUF_BUFG | next_state                        | i_rst_IBUF       |                2 |              4 |
 |  i_clk_IBUF_BUFG |                                   | i_rst_IBUF       |                6 |              8 |
 |  i_clk_IBUF_BUFG | filter_coeffs[0][7]_i_1_n_0       | i_rst_IBUF       |                4 |              8 |
-|  i_clk_IBUF_BUFG | filter_coeffs[1][7]_i_1_n_0       | i_rst_IBUF       |                3 |              8 |
-|  i_clk_IBUF_BUFG | filter_coeffs[2][7]_i_1_n_0       | i_rst_IBUF       |                4 |              8 |
+|  i_clk_IBUF_BUFG | filter_coeffs[1][7]_i_1_n_0       | i_rst_IBUF       |                4 |              8 |
+|  i_clk_IBUF_BUFG | filter_coeffs[2][7]_i_1_n_0       | i_rst_IBUF       |                3 |              8 |
 |  i_clk_IBUF_BUFG | filter_coeffs[3][7]_i_1_n_0       | i_rst_IBUF       |                4 |              8 |
 |  i_clk_IBUF_BUFG | filter_coeffs[4][7]_i_1_n_0       | i_rst_IBUF       |                3 |              8 |
 |  i_clk_IBUF_BUFG | filter_coeffs[5][7]_i_1_n_0       | i_rst_IBUF       |                3 |              8 |
-|  i_clk_IBUF_BUFG | filter_coeffs[6][7]_i_1_n_0       | i_rst_IBUF       |                2 |              8 |
-|  i_clk_IBUF_BUFG | input_data[6][7]_i_1_n_0          | i_rst_IBUF       |                4 |              8 |
-|  i_clk_IBUF_BUFG | input_data_reg[0]0                | i_rst_IBUF       |                4 |              8 |
-|  i_clk_IBUF_BUFG | input_data_reg[1]0                | i_rst_IBUF       |                4 |              8 |
-|  i_clk_IBUF_BUFG | input_data_reg[2]0                | i_rst_IBUF       |                2 |              8 |
-|  i_clk_IBUF_BUFG | input_data_reg[3]0                | i_rst_IBUF       |                5 |              8 |
-|  i_clk_IBUF_BUFG | input_data_reg[4]0                | i_rst_IBUF       |                4 |              8 |
-|  i_clk_IBUF_BUFG | input_data_reg[5]0                | i_rst_IBUF       |                3 |              8 |
-|  i_clk_IBUF_BUFG | k_length[15]_i_1_n_0              | i_rst_IBUF       |                2 |              8 |
-|  i_clk_IBUF_BUFG | k_length[7]_i_1_n_0               | i_rst_IBUF       |                2 |              8 |
+|  i_clk_IBUF_BUFG | filter_coeffs[6][7]_i_1_n_0       | i_rst_IBUF       |                3 |              8 |
+|  i_clk_IBUF_BUFG | input_data[6][7]_i_1_n_0          | i_rst_IBUF       |                3 |              8 |
+|  i_clk_IBUF_BUFG | input_data_reg[0]0                | i_rst_IBUF       |                3 |              8 |
+|  i_clk_IBUF_BUFG | input_data_reg[1]0                | i_rst_IBUF       |                5 |              8 |
+|  i_clk_IBUF_BUFG | input_data_reg[2]0                | i_rst_IBUF       |                4 |              8 |
+|  i_clk_IBUF_BUFG | input_data_reg[3]0                | i_rst_IBUF       |                4 |              8 |
+|  i_clk_IBUF_BUFG | input_data_reg[4]0                | i_rst_IBUF       |                2 |              8 |
+|  i_clk_IBUF_BUFG | input_data_reg[5]0                | i_rst_IBUF       |                4 |              8 |
+|  i_clk_IBUF_BUFG | k_length[15]_i_1_n_0              | i_rst_IBUF       |                4 |              8 |
+|  i_clk_IBUF_BUFG | k_length[7]_i_1_n_0               | i_rst_IBUF       |                4 |              8 |
 |  i_clk_IBUF_BUFG | o_mem_data[7]_i_1_n_0             | i_rst_IBUF       |                5 |              8 |
 |  i_clk_IBUF_BUFG | output_data[7]_i_1_n_0            | i_rst_IBUF       |                1 |              8 |
-|  i_clk_IBUF_BUFG | base_address[15]_i_1_n_0          | i_rst_IBUF       |                7 |             16 |
-|  i_clk_IBUF_BUFG | current_read_address[15]_i_1_n_0  | i_rst_IBUF       |               11 |             16 |
-|  i_clk_IBUF_BUFG | current_write_address[15]_i_1_n_0 | i_rst_IBUF       |                5 |             16 |
-|  i_clk_IBUF_BUFG | o_mem_addr[15]_i_1_n_0            | i_rst_IBUF       |               15 |             16 |
+|  i_clk_IBUF_BUFG | current_read_address[15]_i_1_n_0  | i_rst_IBUF       |               10 |             16 |
+|  i_clk_IBUF_BUFG | current_write_address[15]_i_1_n_0 | i_rst_IBUF       |                4 |             16 |
+|  i_clk_IBUF_BUFG | o_mem_addr[15]_i_1_n_0            | i_rst_IBUF       |               16 |             16 |
 +------------------+-----------------------------------+------------------+------------------+----------------+
 
 
