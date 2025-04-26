@@ -1,0 +1,5 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/Nicky/Desktop/POLIMI/Corsi/ProveFinali/RL/project_reti_logiche/project_reti_logiche.sim/sim_1/synth/timing/tb2425_time_synth.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module project_reti_logiche
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Nicky/Desktop/POLIMI/Corsi/ProveFinali/RL/TestBenches/tb2425.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity tb2425

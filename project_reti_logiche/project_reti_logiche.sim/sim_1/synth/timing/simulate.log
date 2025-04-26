@@ -1,0 +1,11 @@
+Vivado Simulator 2016.1
+Time resolution is 1 ps
+Failure: TEST FALLITO @ OFFSET=41 expected= 11 actual=127
+Time: 6610 ns  Iteration: 0  Process: /tb2425/test_routine  File: C:/Users/Nicky/Desktop/POLIMI/Corsi/ProveFinali/RL/TestBenches/tb2425.vhd
+$finish called at time : 6610 ns : File "C:/Users/Nicky/Desktop/POLIMI/Corsi/ProveFinali/RL/TestBenches/tb2425.vhd" Line 197
+Failure: TEST FALLITO @ OFFSET=45 expected= 33 actual=127
+Time: 6610 ns  Iteration: 0  Process: /tb2425/test_routine  File: C:/Users/Nicky/Desktop/POLIMI/Corsi/ProveFinali/RL/TestBenches/tb2425.vhd
+$finish called at time : 6610 ns : File "C:/Users/Nicky/Desktop/POLIMI/Corsi/ProveFinali/RL/TestBenches/tb2425.vhd" Line 197
+Failure: TEST FALLITO @ OFFSET=46 expected= 53 actual=127
+Time: 6610 ns  Iteration: 0  Process: /tb2425/test_routine  File: C:/Users/Nicky/Desktop/POLIMI/Corsi/ProveFinali/RL/TestBenches/tb2425.vhd
+$finish called at time : 6610 ns : File "C:/Users/Nicky/Desktop/POLIMI/Corsi/ProveFinali/RL/TestBenches/tb2425.vhd" Line 197
