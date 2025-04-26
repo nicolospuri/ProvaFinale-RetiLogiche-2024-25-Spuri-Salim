@@ -1,8 +1,5 @@
--- TB_Positivi:
--- Verifica che il numero di bit per la rappresentazione intermedia sia adeguato 
--- nel caso in cui il risultato intermedio del filtro sia il maggiore possibile.
-
---Viene implicitamente verificato anche che il troncamento sia corretto.
+-- Numero di bit adeguato per rappresentare il numero minimo ottenibile
+-- Troncamento corretto
  
 library ieee;
 use ieee.std_logic_1164.all;
@@ -42,8 +39,8 @@ architecture project_tb_arch of tb2425 is
                                                       1,                                                        -- S
                                                       0, -1, 8, 0, -8, 1, 0, -128, -128, -128, -128, -128, -128, -128           -- C1-C14
                                                       );
-    signal scenario_input : scenario_type := (-128, -128, -128, -128, -128, -128, -128);
-    signal scenario_output : scenario_type :=(127,127,127,127,127,127,127);
+    signal scenario_input : scenario_type := (127,127,127,127,127,127,127);
+    signal scenario_output : scenario_type :=(-128, -128, -128, -128, -128, -128, -128);
  
     signal memory_control : std_logic := '0';      -- A signal to decide when the memory is accessed
                                                    -- by the testbench or by the project
