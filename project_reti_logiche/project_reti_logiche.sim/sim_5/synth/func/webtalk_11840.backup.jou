@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Webtalk v2016.1 (64-bit)
+# SW Build 1538259 on Fri Apr  8 15:45:27 MDT 2016
+# IP Build 1537824 on Fri Apr  8 04:28:57 MDT 2016
+# Start of session at: Sat Apr 26 14:53:56 2025
+# Process ID: 11840
+# Current directory: C:/Users/Nicky/Desktop/POLIMI/Corsi/ProveFinali/RL/project_reti_logiche/project_reti_logiche.sim/sim_5/synth/func
+# Command line: wbtcv.exe -mode batch -source C:/Users/Nicky/Desktop/POLIMI/Corsi/ProveFinali/RL/project_reti_logiche/project_reti_logiche.sim/sim_5/synth/func/xsim.dir/tb2425_func_synth/webtalk/xsim_webtalk.tcl -notrace
+# Log file: C:/Users/Nicky/Desktop/POLIMI/Corsi/ProveFinali/RL/project_reti_logiche/project_reti_logiche.sim/sim_5/synth/func/webtalk.log
+# Journal file: C:/Users/Nicky/Desktop/POLIMI/Corsi/ProveFinali/RL/project_reti_logiche/project_reti_logiche.sim/sim_5/synth/func\webtalk.jou
+#-----------------------------------------------------------
+source C:/Users/Nicky/Desktop/POLIMI/Corsi/ProveFinali/RL/project_reti_logiche/project_reti_logiche.sim/sim_5/synth/func/xsim.dir/tb2425_func_synth/webtalk/xsim_webtalk.tcl -notrace
